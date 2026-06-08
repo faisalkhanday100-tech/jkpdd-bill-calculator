@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JKPDD Bill Calculator</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#f4f7fb;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:400px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#0f172a;
+}
+
+p{
+    text-align:center;
+    color:gray;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    background:#eef4ff;
+    border-radius:10px;
+    font-size:18px;
+    color:#111827;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>JKPDD Bill Calculator</h1>
+
+<p>
+Estimate Your Monthly Electricity Bill Instantly
+</p>
+
+<input type="number" id="old" placeholder="Previous Reading">
+
+<input type="number" id="new" placeholder="Current Reading">
+
+<button onclick="calculateBill()">
+Calculate Bill
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function calculateBill(){
+
+let oldReading =
+parseFloat(document.getElementById("old").value);
+
+let newReading =
+parseFloat(document.getElementById("new").value);
+
+let units = newReading - oldReading;
+
+let amount = 0;
+
+if(units <= 200){
+
+    amount = units * 2.30;
+
+}
+else if(units <= 400){
+
+    amount =
+    (200 * 2.30) +
+    ((units - 200) * 4.00);
+
+}
+else{
+
+    amount =
+    (200 * 2.30) +
+    (200 * 4.00) +
+    ((units - 400) * 4.35);
+
+}
+
+document.getElementById("result").innerHTML =
+`
+Units Used: <b>${units}</b> Units
+<br><br>
+Estimated Bill: <b>₹${amount.toFixed(2)}</b>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
