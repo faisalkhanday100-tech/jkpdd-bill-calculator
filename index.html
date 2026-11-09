@@ -1,575 +1,384 @@
-html
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>JKPDD Bill Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J&K Smart Meter Bill Calculator</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-body{
-
-background:#eef2ff;
-padding:20px;
-color:#111827;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2ff;
+  color: #111827;
 }
 
-.container{
-
-max-width:450px;
-margin:auto;
+header {
+  padding: 45px 20px 30px;
+  text-align: center;
 }
 
-.hero-image{
-
-width:190px;
-height:190px;
-
-object-fit:cover;
-
-display:block;
-
-margin:20px auto 30px auto;
-
-border-radius:50%;
-
-box-shadow:
-0 0 25px rgba(0,0,0,0.12);
-
-border:5px solid white;
-
+header h1 {
+  font-size: clamp(30px, 6vw, 55px);
+  line-height: 1.2;
+  margin: 0 0 18px;
 }
 
-.heading{
-
-text-align:center;
+header h1 span {
+  color: #5546e8;
 }
 
-.heading h1{
-
-font-size:46px;
-line-height:1.2;
-font-weight:800;
-color:#0f172a;
+header p {
+  color: #6b7280;
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 650px;
+  margin: auto;
 }
 
-.heading span{
-
-color:#4f46e5;
+.badge {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 9px 15px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.subtitle{
-
-margin-top:20px;
-font-size:20px;
-line-height:1.8;
-color:#6b7280;
-text-align:center;
+.container {
+  max-width: 650px;
+  margin: auto;
+  padding: 20px;
 }
 
-.card{
-
-background:white;
-
-margin-top:45px;
-
-padding:30px;
-
-border-radius:28px;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,0.06);
-
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 25px;
+  box-shadow: 0 15px 45px rgba(40,50,100,0.08);
 }
 
-label{
-
-display:block;
-
-margin-top:22px;
-
-margin-bottom:10px;
-
-font-size:15px;
-
-font-weight:bold;
-
-letter-spacing:1px;
-
-color:#6b7280;
+label {
+  display: block;
+  font-weight: bold;
+  color: #6b7280;
+  margin: 20px 0 10px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
-input,select{
-
-width:100%;
-
-padding:18px;
-
-border-radius:18px;
-
-border:1px solid #d1d5db;
-
-font-size:20px;
-
-background:#fafafa;
-
-outline:none;
+input, select {
+  width: 100%;
+  padding: 18px;
+  font-size: 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  outline: none;
+  background: #fafafa;
 }
 
-button{
-
-width:100%;
-
-padding:18px;
-
-margin-top:35px;
-
-background:#4f46e5;
-
-color:white;
-
-border:none;
-
-border-radius:18px;
-
-font-size:22px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:0.3s;
+input:focus, select:focus {
+  border-color: #5546e8;
+  background: white;
 }
 
-button:hover{
-
-background:#4338ca;
+button {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 15px;
+  background: #5546e8;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 25px;
+  cursor: pointer;
 }
 
-.result{
-
-margin-top:30px;
-
-padding:25px;
-
-background:#eef2ff;
-
-border-radius:18px;
-
-line-height:2;
-
-font-size:18px;
-
-display:none;
+button:active {
+  transform: scale(0.99);
 }
 
-.result h2{
-
-margin-bottom:15px;
-
-color:#4f46e5;
+.result {
+  margin-top: 25px;
+  padding: 24px;
+  background: #f5f3ff;
+  border-radius: 20px;
+  display: none;
 }
 
-.breakdown{
-
-margin-top:15px;
-
-padding-top:15px;
-
-border-top:1px solid #c7d2fe;
+.result h2 {
+  margin: 0;
+  color: #5546e8;
+  font-size: 32px;
 }
 
-.total{
-
-margin-top:20px;
-
-font-size:32px;
-
-font-weight:800;
-
-color:#4f46e5;
-
-text-align:center;
+.result p {
+  color: #6b7280;
+  line-height: 1.6;
 }
 
-.tariff{
-
-margin-top:50px;
-
-background:white;
-
-padding:25px;
-
-border-radius:25px;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,0.05);
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.tariff h2{
-
-text-align:center;
-
-margin-bottom:20px;
-
-font-size:32px;
-
-color:#111827;
+.row strong {
+  text-align: right;
 }
 
-.table{
-
-width:100%;
-
-border-collapse:collapse;
+.total {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111827;
 }
 
-.table th{
-
-background:#e0e7ff;
-
-padding:15px;
-
-font-size:16px;
+.note {
+  background: #fff7ed;
+  color: #9a3412;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 20px;
 }
 
-.table td{
-
-padding:15px;
-
-text-align:center;
-
-border-bottom:1px solid #e5e7eb;
-
-font-size:16px;
+.tariff {
+  background: white;
+  padding: 25px;
+  margin-top: 25px;
+  border-radius: 20px;
 }
 
-.footer{
+.tariff h3 {
+  margin-top: 0;
+}
 
-text-align:center;
+.tariff .row {
+  font-size: 14px;
+}
 
-margin-top:40px;
-
-color:#6b7280;
-
-font-size:16px;
+footer {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  padding: 35px 20px;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<header>
+  <div class="badge">UPDATED TARIFF • 1 SEPTEMBER</div>
+
+  <h1>Estimate Your Monthly <span>Electricity Bill</span> Instantly.</h1>
+
+  <p>
+    Smart meter bill estimator for Jammu & Kashmir.
+    Calculate your estimated electricity charges using the revised tariff.
+  </p>
+</header>
+
 <div class="container">
 
-<img
-src="faisal.png"
-class="hero-image">
+  <div class="card">
 
-<div class="heading">
+    <label for="units">UNITS CONSUMED</label>
+    <input type="number" id="units" min="0" step="0.01"
+           placeholder="e.g. 250">
 
-<h1>
-Estimate Your Monthly
-<span>Electricity Bill Instantly.</span>
-</h1>
+    <label for="load">SANCTIONED LOAD (kW)</label>
+    <input type="number" id="load" min="0" step="0.01"
+           value="1">
 
-<p class="subtitle">
+    <label for="connection">CONNECTION TYPE</label>
+    <select id="connection">
+      <option value="domestic">Domestic</option>
+    </select>
 
-The most accurate bill estimator for J&K smart meter consumers.
-Fast, reliable, and updated with JKPDD Tariff.
+    <button onclick="calculateBill()">Calculate My Bill</button>
 
-</p>
+    <div class="result" id="result">
 
-</div>
+      <p>YOUR ESTIMATED MONTHLY BILL</p>
+      <h2 id="total">₹0.00</h2>
 
-<div class="card">
+      <div class="row">
+        <span>First 200 units</span>
+        <strong id="slab1">₹0.00</strong>
+      </div>
 
-<label>UNITS CONSUMED</label>
+      <div class="row">
+        <span>Next 200 units</span>
+        <strong id="slab2">₹0.00</strong>
+      </div>
 
-<input
-type="number"
-id="units"
-placeholder="e.g. 250">
+      <div class="row">
+        <span>Above 400 units</span>
+        <strong id="slab3">₹0.00</strong>
+      </div>
 
-<label>SANCTIONED LOAD (KW)</label>
+      <div class="row">
+        <span>Fixed demand charge</span>
+        <strong id="fixed">₹0.00</strong>
+      </div>
 
-<input
-type="number"
-id="load"
-value="1">
+      <div class="row total">
+        <span>Total estimated charges</span>
+        <strong id="grand">₹0.00</strong>
+      </div>
 
-<label>CONNECTION TYPE</label>
+      <p id="breakdown"></p>
 
-<select id="type">
+      <div class="note">
+        This is an estimated calculation based on the entered
+        consumption and sanctioned load. Actual bills may include
+        additional taxes, adjustments, arrears or other charges.
+      </div>
 
-<option>Domestic</option>
+    </div>
 
-<option>Commercial</option>
+  </div>
 
-</select>
+  <div class="tariff">
+    <h3>Current Tariff</h3>
 
-<button onclick="calculateBill()">
+    <div class="row">
+      <span>0–200 units</span>
+      <strong>₹2.45/unit</strong>
+    </div>
 
-CALCULATE BILL
+    <div class="row">
+      <span>201–400 units</span>
+      <strong>₹4.20/unit</strong>
+    </div>
 
-</button>
+    <div class="row">
+      <span>Above 400 units</span>
+      <strong>₹4.60/unit</strong>
+    </div>
 
-<div class="result" id="result"></div>
-
-</div>
-
-<div class="tariff">
-
-<h2>JKPDD Tariff FY 2024-25</h2>
-
-<table class="table">
-
-<tr>
-
-<th>Slab</th>
-
-<th>Rate</th>
-
-</tr>
-
-<tr>
-
-<td>0 - 200 Units</td>
-
-<td>₹2.30</td>
-
-</tr>
-
-<tr>
-
-<td>201 - 400 Units</td>
-
-<td>₹4.00</td>
-
-</tr>
-
-<tr>
-
-<td>Above 400 Units</td>
-
-<td>₹4.35</td>
-
-</tr>
-
-</table>
+    <div class="row">
+      <span>Fixed demand charge</span>
+      <strong>₹10/kW</strong>
+    </div>
+  </div>
 
 </div>
 
-<div class="footer">
-
-Made with ❤️ by Faisal
-
-</div>
-
-</div>
+<footer>
+  J&K Smart Meter Bill Calculator<br>
+  Tariff reference: 1 September
+</footer>
 
 <script>
 
-function calculateBill(){
+// J&K REVISED TARIFF
+const TARIFF = {
+  slab1: 2.45,
+  slab2: 4.20,
+  slab3: 4.60,
+  fixedCharge: 10
+};
 
-let units =
-parseFloat(document.getElementById("units").value);
-
-let load =
-parseFloat(document.getElementById("load").value);
-
-let type =
-document.getElementById("type").value;
-
-if(isNaN(units) || units <= 0){
-
-alert("Please enter valid units");
-
-return;
-
+function money(value) {
+  return "₹" + value.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
-let energyCharge = 0;
+function calculateBill() {
 
-let fixedCharge = load * 8;
+  const units = parseFloat(document.getElementById("units").value);
+  const load = parseFloat(document.getElementById("load").value);
 
-let breakdown = "";
+  if (
+    document.getElementById("units").value === "" ||
+    document.getElementById("load").value === "" ||
+    !Number.isFinite(units) ||
+    !Number.isFinite(load) ||
+    units < 0 ||
+    load < 0
+  ) {
+    alert("Please enter valid units and sanctioned load.");
+    return;
+  }
 
-if(type == "Domestic"){
+  // Progressive slab calculation
 
-if(units <= 200){
+  const first = Math.min(units, 200);
 
-energyCharge =
-units * 2.30;
+  const second = Math.min(
+    Math.max(units - 200, 0),
+    200
+  );
 
-breakdown =
+  const third = Math.max(units - 400, 0);
 
-`
+  const charge1 = first * TARIFF.slab1;
+  const charge2 = second * TARIFF.slab2;
+  const charge3 = third * TARIFF.slab3;
 
-<div class="breakdown">
+  const fixed = load * TARIFF.fixedCharge;
 
-${units} × ₹2.30
+  const energy = charge1 + charge2 + charge3;
 
-= ₹${energyCharge.toFixed(2)}
+  const total = energy + fixed;
 
-</div>
+  // Display results
 
-`;
+  document.getElementById("slab1").textContent =
+    money(charge1);
 
-}
+  document.getElementById("slab2").textContent =
+    money(charge2);
 
-else if(units <= 400){
+  document.getElementById("slab3").textContent =
+    money(charge3);
 
-let first =
-200 * 2.30;
+  document.getElementById("fixed").textContent =
+    money(fixed);
 
-let second =
-(units - 200) * 4.00;
+  document.getElementById("total").textContent =
+    money(total);
 
-energyCharge =
-first + second;
+  document.getElementById("grand").textContent =
+    money(total);
 
-breakdown =
+  document.getElementById("breakdown").textContent =
+    "Energy charges: " + money(energy) +
+    " | Fixed charges: " + money(fixed);
 
-`
-
-<div class="breakdown">
-
-<b>First 200 Units</b>
-
-<br>
-
-200 × ₹2.30
-= ₹${first.toFixed(2)}
-
-<br><br>
-
-<b>Remaining ${units-200} Units</b>
-
-<br>
-
-${units-200} × ₹4.00
-= ₹${second.toFixed(2)}
-
-</div>
-
-`;
-
-}
-
-else{
-
-let first =
-200 * 2.30;
-
-let second =
-200 * 4.00;
-
-let third =
-(units - 400) * 4.35;
-
-energyCharge =
-first + second + third;
-
-breakdown =
-
-`
-
-<div class="breakdown">
-
-<b>First 200 Units</b>
-
-<br>
-
-200 × ₹2.30
-= ₹${first.toFixed(2)}
-
-<br><br>
-
-<b>Next 200 Units</b>
-
-<br>
-
-200 × ₹4.00
-= ₹${second.toFixed(2)}
-
-<br><br>
-
-<b>Remaining ${units-400} Units</b>
-
-<br>
-
-${units-400} × ₹4.35
-= ₹${third.toFixed(2)}
-
-</div>
-
-`;
-
-}
-
-}
-
-let total =
-energyCharge + fixedCharge;
-
-document.getElementById("result").style.display =
-"block";
-
-document.getElementById("result").innerHTML =
-
-`
-
-<h2>Bill Breakdown</h2>
-
-<b>Units Consumed:</b>
-${units}
-
-<br><br>
-
-${breakdown}
-
-<br><br>
-
-<b>Energy Charge:</b>
-₹${energyCharge.toFixed(2)}
-
-<br>
-
-<b>Fixed Charge:</b>
-₹${fixedCharge.toFixed(2)}
-
-<div class="total">
-
-Estimated Bill
-
-<br>
-
-₹${total.toFixed(2)}
-
-</div>
-
-`;
+  document.getElementById("result").style.display = "block";
 
 }
 
 </script>
 
 </body>
-
 </html>
-```
+
+
+<footer>
+  J&K Smart Meter Bill Calculator<br>
+  Tariff reference: 1 September<br><br>
+
+  Created & Developed by<br>
+  <strong style="color:#5546e8;font-size:18px;">
+    Faisal Khanday
+  </strong>
+</footer>
+
